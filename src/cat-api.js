@@ -17,7 +17,7 @@ export function fetchBreeds() {
       return response.json();
     })
     .then(breeds => {
-      // console.log(breeds);
+      console.log(breeds);
       for (let i = 0; i < breeds.length; i++) {
         let option = document.createElement('option');
         option.value = breeds[i].id;
@@ -32,14 +32,16 @@ export function fetchBreeds() {
 }
 
 export function fetchCatByBreed(breedId) {
-  axios
+  return axios
     .get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`)
-    .then(reponse => {
+    .then(response => {
       return response.data;
     });
 }
 export function fetchCatDetails() {
-  axios.get().then(reponse => {
-    return response.cats;
-  });
+  return axios
+    .get(`https://api.thecatapi.com/v1/breeds/${breedId}`)
+    .then(response => {
+      return response.data;
+    });
 }
