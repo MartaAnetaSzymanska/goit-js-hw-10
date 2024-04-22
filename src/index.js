@@ -8,6 +8,8 @@ import {
 
 fetchBreeds();
 
-select.addEventListener('click', ev => {
-  fetchCatByBreed(ev.target.getAttribute('value'));
+select.addEventListener('change', ev => {
+  let breedId = ev.target.value;
+  console.log(breedId);
+  fetchCatByBreed(breedId);
 });
