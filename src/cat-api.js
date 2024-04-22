@@ -17,7 +17,7 @@ export function fetchBreeds() {
       return response.json();
     })
     .then(breeds => {
-      console.log(breeds);
+      // console.log(breeds);
       for (let i = 0; i < breeds.length; i++) {
         let option = document.createElement('option');
         option.value = breeds[i].id;
@@ -25,6 +25,7 @@ export function fetchBreeds() {
         select.append(option);
       }
       loadingNotification.hidden = true;
+      select.hidden = false;
     })
     .catch(error => {
       console.log('error', error);
@@ -39,9 +40,7 @@ export function fetchCatByBreed(breedId) {
     });
 }
 export function fetchCatDetails() {
-  return axios
-    .get(`https://api.thecatapi.com/v1/breeds/${breedId}`)
-    .then(response => {
-      return response.data;
-    });
+  return axios.get('https://api.thecatapi.com/v1/breeds/').then(response => {
+    return response.data;
+  });
 }
