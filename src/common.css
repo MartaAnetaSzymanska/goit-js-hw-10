@@ -4,9 +4,6 @@ body {
 .breed-select {
   margin-bottom: 20px;
 }
-.hidden {
-  display: none;
-}
 
 img {
   max-width: 40%;
@@ -32,4 +29,8 @@ img {
 }
 .title {
   margin-top: 0;
+}
+
+.hidden {
+  display: none;
 }

@@ -28,11 +28,10 @@ fetchBreeds()
   });
 
 select.addEventListener('change', ev => {
-  catInfoBox.classList.add('hidden');
   loader.classList.remove('hidden');
+  catInfoBox.classList.add('hidden');
   let breedId = ev.target.value;
   // console.log(breedId);
-
   let image;
   let cat;
   const promise1 = fetchCatByBreed(breedId)
