@@ -24,7 +24,7 @@ fetchBreeds()
     loader.classList.add('hidden');
     select.classList.add('hidden');
     error.classList.remove('hidden');
-    throw 'Network error';
+    console.error('Network error');
   });
 
 select.addEventListener('change', ev => {
@@ -39,14 +39,14 @@ select.addEventListener('change', ev => {
       image = images[0];
     })
     .catch(err => {
-      throw 'Photo error';
+      console.error('Image error');
     });
   const promise2 = fetchCatDetails(breedId)
     .then(cats => {
       cat = cats.find(el => el.id === breedId);
     })
     .catch(err => {
-      throw 'Cat description error';
+      console.error('Description error');
     });
   Promise.all([promise1, promise2])
     .then(() => {
