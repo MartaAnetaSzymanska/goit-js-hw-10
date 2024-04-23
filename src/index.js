@@ -2,10 +2,9 @@ import axios from 'axios';
 import { fetchBreeds, fetchCatByBreed, fetchCatDetails } from './cat-api';
 
 const select = document.querySelector('select.breed-select');
-const breedDetailsBox = document.querySelector('div.cat-info');
 const loader = document.querySelector('p.loader');
 const error = document.querySelector('p.error');
-const catInfo = document.querySelector('div.cat-info');
+const catInfoBox = document.querySelector('div.cat-info');
 
 select.classList.add('hidden');
 error.classList.add('hidden');
@@ -25,42 +24,40 @@ fetchBreeds()
     loader.classList.add('hidden');
     select.classList.add('hidden');
     error.classList.remove('hidden');
-    console.log('error', err);
-    throw error;
+    throw 'Network error';
   });
 
 select.addEventListener('change', ev => {
-  catInfo.classList.add('hidden');
+  catInfoBox.classList.add('hidden');
   loader.classList.remove('hidden');
   let breedId = ev.target.value;
   // console.log(breedId);
-  fetchCatByBreed(breedId)
-    .then(cats => {
-      let cat = cats[0];
-      breedDetailsBox.innerHTML = `<img src="${cat.url}" alt ="cat"></img>`;
-      catInfo.classList.remove('hidden');
-    })
-    .catch(err => {
-      loader.classList.add('hidden');
-      select.classList.add('hidden');
-      error.classList.remove('hidden');
-      console.log('error', err);
-      throw err;
-    });
 
-  fetchCatDetails(breedId)
+  let image;
+  let cat;
+  const promise1 = fetchCatByBreed(breedId)
+    .then(images => {
+      image = images[0];
+    })
+    .catch(err => {
+      throw 'Photo error';
+    });
+  const promise2 = fetchCatDetails(breedId)
     .then(cats => {
-      let cat = cats.find(el => el.id === breedId);
-      const markup = `<div><h2 class="title">${cat.name}</h2><p>${cat.description}</p><span class="span-temper">Temperament: </span>${cat.temperament}</div>`;
-      breedDetailsBox.insertAdjacentHTML('beforeend', markup);
+      cat = cats.find(el => el.id === breedId);
+    })
+    .catch(err => {
+      throw 'Cat description error';
+    });
+  Promise.all([promise1, promise2])
+    .then(() => {
       loader.classList.add('hidden');
-      catInfo.classList.remove('hidden');
+      catInfoBox.classList.remove('hidden');
+      catInfoBox.innerHTML = `<img src="${image.url}" alt ="cat"></img><div><h2 class="title">${cat.name}</h2><p>${cat.description}</p><span class="span-temper">Temperament: </span>${cat.temperament}</div`;
     })
     .catch(err => {
       loader.classList.add('hidden');
       select.classList.add('hidden');
       error.classList.remove('hidden');
-      console.log('error', err);
-      throw error;
     });
 });
